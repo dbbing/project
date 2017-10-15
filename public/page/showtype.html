@@ -27,7 +27,7 @@
         <div class="Catalog">
             <div class="Catalog_right" hidden>
                 <div class="Catalogtitle">总计<em>15552</em>道题&nbsp;&nbsp;提示：单击体面可显示答案和解析&nbsp;&nbsp;<input type="checkbox"/><b>显示答案和解析</b>&nbsp;&nbsp;<a href="#" class="Thispage">本页全部试题加入试卷</a><div><i>1</i><a href="#" class="pageone">前</a><a href="#" class="pagetwo">后</a></div></div>
-                <div class="Catalog_rightnei">
+                <div class="Catalog_rightnei" >
                     <div class="Catalogtitwo">题号：25544&nbsp;&nbsp;题型：还是得&nbsp;&nbsp;难度：订餐&nbsp;&nbsp;上传人：女性司机&nbsp;&nbsp;来源：才能使得&nbsp;&nbsp;上传时间:220255&nbsp;&nbsp;组卷次数：<em>0</em></div>
                     <div class="Catalogcontent">
                         <div class="Catalogcontentup">题型</div>
@@ -122,9 +122,9 @@
             //显示题目
             console.log(arr);
             $.post('DB/subject',{ids:arr},function(data){
-                console.log(data);
+                // console.log(data);
                 data.forEach(function(item){
-                    console.log(item);
+                    // console.log(item);
                      $('.Catalogcontentup').html("<span id="+item.id+">题目<br>"+item.stem+"<br></span>");
                     // $('.Catalogcontentup').eq(1).html("题型<br>"+item.stem);
                     //显示答案 
@@ -167,6 +167,21 @@
                 $(".Catalogcontentup ol").hide()  
             }
         })
+         //模糊查询
+        $("span:contains('查找')").off();
+        $("span:contains('查找')").on('click',function(){
+            state = "off";
+            var key = $('input:text').val();
+            // console.log(key);
+            $.getJSON('Subject/query/'+key,function(data){
+                console.log(data);
+                data.forEach(function(item){
+                    console.log("hahahhah:",item);
+                $('.Catalogcontentup:eq(0)').html('<span subjectType_id='+item.subjectType_id+' id='+item.id+'>题目为:&nbsp;'+item.stem+'</span>');          
+                });
+            });
+            $('.Catalog_rightnei:eq(0)').removeAttr('hidden');
+        });
 //题目审核，删除题目
         $('.Catalogcontentdown').off('click');
         $('.Catalogcontentdown').eq(0).on('click','a',function(){
@@ -183,6 +198,7 @@
                 $.post('DB/delete',{id:id});
             }
         });
+       
 //点击跳转到addSubject页面
         $('.icon_add').off();
         $('.icon_add').on('click',function(){
