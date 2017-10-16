@@ -73,7 +73,6 @@
 						</div>
 						<div class="clear"></div>
 					</div>
-					<div class="clear"></div>
 				</div>
 			</div>
 			<div class="Problem chapterAnswer">
@@ -157,13 +156,17 @@
 			}
 		})
 		//点击添加选项追加
-		// $('.c_condition').off();
-		// $('.c_condition').on('click',function(){
-		// 	var opp = $('.Answerpart').eq(0).clone();
-		// 	opp.children('p').html('');
-		// 	$('.Answercontent').append(opp);
-		// 	// $('.Answeroptions .Answercontent .Answerpart p:last-child').css('display','none');
-		// });
+		$('.icon_add').off();
+		$('.icon_add').on('click',function(){
+			var oppClone = $('.Answercontent>div:last-child').clone();//克隆最后一个孩子
+			var con = oppClone.find('p').html();
+			var conCode = con.charCodeAt();//将字符串转换为字符编码
+			var newCode = String.fromCharCode(conCode+1);//将字符编码转换为字符
+			oppClone.find('p').html(newCode);
+			$('.Answercontent').append(oppClone);
+			// console.log(con,conCode);
+			// $('.Answeroptions .Answercontent .Answerpart p:last-child').css('display','none');
+		});
 		//保存题目
 		function saveSubject(){
 			var type_id = $('.Attributecontent select[name=type]').val();
@@ -173,6 +176,8 @@
 			var stem = $('.Problem textarea').val();
 			var analysis = $('.Problemcontent textarea[name=analysis]').val();
 			//判断是单选题还是简答题分别拿他的值
+			var arr=[];
+			var correct;
 			if(type_id==1||type_id==2){
 				 var answer = $('textarea[name=choiceContent]').toArray().map(function(item){
 					 return $(item).val(); 
@@ -180,7 +185,7 @@
 					//找到textarea[name=choiceContent]转换为一个数组然后进行遍历就可以拿到每一个textarea[name=choiceContent]，然后用.val()将他的只返回去用answer来接收。
 				 })
 				//判断哪个是正确答案
-				var correct = $('input').toArray().map(function(item){
+				 correct = $('input').toArray().map(function(item){
 					if($(item).is(':checked')){
 						return true;
 					}else{
@@ -189,11 +194,16 @@
 				})		  
 				//找到input转换为一个数组然后进行遍历判断他是否被选中如果选中则把他的值设置为true(数据库在插入的时候就会将true转换为'1'将false转换为'0'，)返回去用correct来接收。
 			}else{
-				var answer = $('.chapterAnswer textarea[name=answer]').val()
-			}
+				var answer = $('.chapterAnswer textarea[name=answer]').val();
+				arr.push(answer);
+			// console.log(arr);
+			var answer = arr
 			// console.log(answer);
+			}
+		// console.log(correct);
 			//发送请求
 			$.ajax('DB/saveSubject',{
+
 				method:"POST",
 				'content-Type':'application/json',
 				data:{
@@ -207,8 +217,22 @@
 					checkState:"未审核"
 				},
 				success:function(data){
-					console.log(data);
+					// var id = data.insertId;
+					// // console.log(id);//题目的id
+					// $.ajax('/DB/addChoice',{
+					// 	'method':'POST',
+					// 	'content-Type':'application/json',
+					// 	data:{
+					// 		id:id,
+					// 		content:content,
+					// 		correct:correct
+					// 	},
+					// 	success:function(data){
+					// 		console.log(data);
+					// 	}
+					// })
 					alert("成功插入");
+					
 				}
 			})
 		}

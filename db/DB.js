@@ -20,7 +20,7 @@ module.exports={
     subject(id){
         // console.log("id:",id);
         var sql = "select * from tbl_exam_subject where department_id='"+id[1]+"' and subjectLevel_id='"+id[2]+"' and subjecttype_id='"+id[0]+"' and topic_id='"+id[3]+"'";
-        console.log("sql:",sql);
+        // console.log("sql:",sql);
         return pool.execute(sql);
     },
     update(state,id){
@@ -41,15 +41,16 @@ module.exports={
     },
     query(key){
         var sql = "select * from tbl_exam_subject where stem like '%"+key+"%'";
-        console.log(sql);
+        // console.log("生气了：",sql);
 		return pool.execute(sql);
 	},
    saveSubject(type_id,department_id,topic_id,level_id,stem,answer,checkState,analysis){
        var sql = "insert into tbl_exam_subject(id,analysis,answer,checkState,stem,department_id,subjectLevel_id,subjectType_id,topic_id) values(null,'"+analysis+"','"+answer+"','"+checkState+"','"+stem+"','"+department_id+"','"+level_id+"','"+type_id+"','"+topic_id+"')";
         // var sql = "insert into tbl_exam_choice(correct) values('"+correct+"')";
         return pool.execute(sql);
-   }
-    // saveChoice(content,correct,id){
-    //     var sql = "insert into tbl_exam_choice(id,content,correct,subject_id) values(null,'"+content+"','"+correct+"','"+id+"')"
+   },
+    // addChoice(content,correct,id){
+    //     var sql = "insert into tbl_exam_choice(id,content,correct,subject_id) values(null,'"+content+"','"+correct+"',"+id+")"
+    //     return pool.execute(sql);
     // }
 }

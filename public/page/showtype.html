@@ -120,7 +120,7 @@
                }
            }).get();//获取到所有属性为active3的可见的a标签将其放到一个数组里边　.get()可以将类数组转换为一个数组对象
             //显示题目
-            console.log(arr);
+            // console.log(arr);
             $.post('DB/subject',{ids:arr},function(data){
                 // console.log(data);
                 data.forEach(function(item){
@@ -129,7 +129,7 @@
                     // $('.Catalogcontentup').eq(1).html("题型<br>"+item.stem);
                     //显示答案 
                     $.post('DB/answer',function(data){
-                        console.log(data);
+                        // console.log(data);
                          if(item.subjectType_id==1||item.subjectType_id==2){
                             data.forEach(function(item){
                             //   console.log(item);//console.log(arr[item.id]) 
@@ -173,10 +173,10 @@
             state = "off";
             var key = $('input:text').val();
             // console.log(key);
-            $.getJSON('Subject/query/'+key,function(data){
-                console.log(data);
+            $.getJSON('DB/query/'+key,function(data){
+                // console.log(data);
                 data.forEach(function(item){
-                    console.log("hahahhah:",item);
+                    // console.log("hahahhah:",item);
                 $('.Catalogcontentup:eq(0)').html('<span subjectType_id='+item.subjectType_id+' id='+item.id+'>题目为:&nbsp;'+item.stem+'</span>');          
                 });
             });

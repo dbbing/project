@@ -98,11 +98,35 @@ route.post('/saveSubject',(req,resp)=>{
     var analysis = req.body['analysis'];
     // console.log(answer);
     db.saveSubject(type_id,department_id,topic_id,level_id,stem,answer,checkState,analysis).then((data)=>{
-        resp.send(data);
+        resp.send(data);  
     }).catch((error)=>{
         resp.send(error);
     })
+    // if(type_id!==3){
+    //      db.saveChoice(answer,correct).then((data)=>{
+    //          console.log(data);
+    //         resp.send(data);
+    //     }).catch((erro)=>{
+    //         resp.send(error);
+    //     });
+    // }
 })
+// route.post('/addChoice',(req,resp)=>{
+//     var content =req.body['content'];
+//     var correct =req.body['correct'];
+//     content = JSON.parse(content);
+//     correct = JSON.parse(correct);
+//     var id= req.body[id];
+//     // console.log("lalala:",id);
+//    content.forEach(function(item,index){
+//        console.log('哇哈哈:',item,index)
+//         db.addChoice(item,correct[index],id).then((data)=>{
+//         resp.send(data);
+//     }).catch((error)=>{
+//         resp.send(error);
+//     })
+//    })
+// })
 function Arr(a){
     var arr=[];
     return arr.concat(a);
